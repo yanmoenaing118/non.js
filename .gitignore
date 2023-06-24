@@ -1,0 +1,21 @@
+# Ignore dependencies
+node_modules
+
+# Ignore build output
+dist
+public
+
+# Ignore development server cache
+/.webpack-dev-server
+
+# Ignore environment-specific files
+.env
+
+# Ignore log files
+*.log
+
+# Ignore editor-specific files and directories
+.idea/
+.vscode/
+*.swp
+*.swo
