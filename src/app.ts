@@ -12,13 +12,10 @@ const cam = new non.Container(360,360);
 
 
 
-scene.add(e1);
-scene.add(e2);
-
-
 scene.add(cam)
+cam.add(e1);
+cam.add(e2);
 
-cam.add(new non.Entity(44,44));
 
 function render(container: Container) {
     function renderRec(cont: Container) {
