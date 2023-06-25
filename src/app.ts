@@ -1,37 +1,27 @@
-import non from "./non";
-import Entity from "./non/Entity";
+import Renderer from "./non/Renderer";
 import Container from "./non/containers/Container";
+import Rect from "./non/shapes/Rect";
 
+const w = 600;
+const h = 400;
 
-const e1 = new non.Entity(32,32);
-const e2 = new non.Entity(64,32);
+const render = new Renderer(w, h);
+const scene = new Container(w, h);
+const rect = new Rect(0, 0,100,100);
+rect.setStyles({
+  fill: "pink",
+});
 
-
-const scene = new non.Container(300,300);
-const cam = new non.Container(360,360);
-
-
-
-scene.add(e1);
-scene.add(e2);
-
-
-scene.add(cam)
-
-cam.add(new non.Entity(44,44));
-
-function render(container: Container) {
-    function renderContainer(parentContainer: Container) {
-        parentContainer.forEach( child => {
-            if(child instanceof Container) {
-                renderContainer(child);
-            }
-        })
-    }
-
-    renderContainer(container);
+const rect2 = new Rect(100,100,200,200);
+rect2.setStyles({
+    fill: 'green'
+})
+scene.add(rect);
+scene.add(rect2)
+function loop() {
+    render.render(scene);
+    requestAnimationFrame(loop);
 }
 
 
-render(scene);
-
+requestAnimationFrame(loop);

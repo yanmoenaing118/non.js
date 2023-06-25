@@ -1,3 +1,4 @@
+import { ContextStyle } from "./Interfaces";
 import Vec2 from "./Vec2";
 
 class Entity {
@@ -7,6 +8,7 @@ class Entity {
   w: number;
   h: number;
   dead: boolean;
+  style: ContextStyle;
 
   constructor(width: number, height: number) {
     this.pos = new Vec2(0,0);
@@ -15,6 +17,10 @@ class Entity {
     this.w = width;
     this.h = height;
     this.dead = false;
+  }
+
+  setStyles(style: ContextStyle) {
+    this.style = {...style}
   }
 
   update (dt: number, t: number): void {
