@@ -15,7 +15,7 @@ let ellapsedTime = 0;
 
 const size = 1;
 
-const render = new Renderer(w * size, h + h * 0.5,undefined, true);
+const render = new Renderer(w * size, h,undefined, true);
 // render.debugGridMode = true;
 const scene = new Container(w, h);
 
@@ -33,15 +33,6 @@ class Spider extends TileSprite {
       this.pos.y += dt * controls.y * 1000 * Math.random();
   }
 }
-
-const spi = new Sprite(new Texture('images/spiders.png'), 64, 64);
-
-for(let i = 0;  i < 100; i++ ) {
-    const spider = new Spider();
-    scene.add(spider);
-}
-
-scene.add(spi)
 
 function loop(time: number) {
   dt = Math.min(5, (time - ellapsedTime) * 0.001);

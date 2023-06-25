@@ -1,8 +1,9 @@
 import Entity from "../Entity";
 class Container extends Entity {
-  children: Entity[] = [];
+  private children: Entity[] = [];
   add(e: Entity) {
     this.children.push(e);
+    return e;
   }
 
   remove(e: Entity) {
