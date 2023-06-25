@@ -16,7 +16,6 @@ let ellapsedTime = 0;
 const size = 1;
 
 const render = new Renderer(w * size, h,undefined, true);
-// render.debugGridMode = true;
 const scene = new Container(w, h);
 
 class Spider extends TileSprite {
