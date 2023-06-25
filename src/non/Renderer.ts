@@ -55,7 +55,6 @@ export default class Renderer {
         }
 
         if (child instanceof Rect) {
-          console.log(child);
           if (child.style.fill) {
             ctx.fillRect(0, 0, child.w, child.h);
           } else if (child.style.stroke) {
