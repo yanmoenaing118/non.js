@@ -2,6 +2,7 @@
  * The renderer will render all the entities inside of a Scene Container
  */
 
+import Sprite from "./Sprite";
 import Container from "./containers/Container";
 import Rect from "./shapes/Rect";
 
@@ -38,8 +39,6 @@ export default class Renderer {
       container.forEach((child) => {
         ctx.save();
 
-        console.log(child);
-
         if (child.pos) {
           ctx.translate(child.pos.x, child.pos.y);
         }
@@ -63,6 +62,10 @@ export default class Renderer {
             ctx.fillRect(0, 0, child.w, child.h);
             ctx.strokeRect(0, 0, child.w, child.h);
           }
+        }
+
+        if(child instanceof Sprite) {
+            ctx.drawImage(child.texture.img, 0, 0);
         }
 
         /**

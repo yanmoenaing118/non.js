@@ -24,7 +24,6 @@ class Entity {
   }
 
   update (dt: number, t: number): void {
-    console.log(this)
   } 
 }
 
