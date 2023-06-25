@@ -1,6 +1,6 @@
 import Entity from "../Entity";
 class Container extends Entity {
-  private children: Entity[] = [];
+  children: Entity[] = [];
   add(e: Entity) {
     this.children.push(e);
   }
@@ -16,6 +16,10 @@ class Container extends Entity {
       }
       return !child.dead;
     });
+  }
+
+  getTotalChildren() {
+    return this.children.length;
   }
 
   forEach(fn: (e: Entity) => void) {

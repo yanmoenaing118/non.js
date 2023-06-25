@@ -3,6 +3,7 @@
  */
 
 import Sprite from "./Sprite";
+import TileSprite from "./TileSprite";
 import Container from "./containers/Container";
 import Rect from "./shapes/Rect";
 
@@ -12,9 +13,14 @@ export default class Renderer {
   w: number;
   h: number;
   debugGridMode: boolean = false;
-  debugGridSize = 64;
+  debugGrid = {
+    rows: 0,
+    cols: 0,
+    size: 64,
+    i: 0
+  }
 
-  constructor(width: number, height: number, root?: HTMLElement) {
+  constructor(width: number, height: number, root?: HTMLElement, debugMode: boolean = false) {
     this.w = width;
     this.h = height;
     this.canvas = document.createElement("canvas");
@@ -26,6 +32,12 @@ export default class Renderer {
       root.appendChild(this.canvas);
     } else {
       document.body.appendChild(this.canvas);
+    }
+    this.debugGridMode = debugMode;
+    this.debugGrid = {
+      ...this.debugGrid,
+      rows: Math.round(height / this.debugGrid.size),
+      cols: Math.round(width / this.debugGrid.size),
     }
   }
 
@@ -64,8 +76,22 @@ export default class Renderer {
           }
         }
 
-        if(child instanceof Sprite) {
-            ctx.drawImage(child.texture.img, 0, 0);
+        if (child instanceof Sprite && !('tileH' in child)) {
+          ctx.drawImage(child.texture.img, 0, 0);
+        }
+
+        if (child instanceof TileSprite && 'tileH' in child && 'tileW' in child) {
+          ctx.drawImage(
+            child.texture.img,
+            child.frame.x * child.tileW,
+            child.frame.y * child.frame.y,
+            child.tileW,
+            child.tileH,
+            0,
+            0,
+            child.tileW,
+            child.tileH
+          );
         }
 
         /**
@@ -85,7 +111,7 @@ export default class Renderer {
      * clear the Canvas before any rendering happens
      */
     ctx.clearRect(0, 0, w, h);
-    if (this.debugGridMode) {
+    if(this.debugGridMode) {
       this.renderDebugGrid();
     }
     renderContainer(scene);
@@ -96,24 +122,25 @@ export default class Renderer {
    * This will render a grid when debugGridMode is true
    */
   renderDebugGrid() {
-    const { debugGridSize, w, h, ctx } = this;
-    const rows = Math.round(h / debugGridSize);
-    const cols = Math.round(w / debugGridSize);
-    for (let i = 0; i < rows; i++) {
-      ctx.save();
-      ctx.translate(0, i * debugGridSize);
-      ctx.moveTo(0, 0);
-      ctx.lineTo(w, 0);
-      ctx.stroke();
-      ctx.restore();
+    for ( this.debugGrid.i = 0; this.debugGrid.i < this.debugGrid.rows; this.debugGrid.i++) {
+      this.ctx.save();
+      this.ctx.translate(0, this.debugGrid.i * this.debugGrid.size);
+      this.ctx.beginPath();
+      this.ctx.moveTo(0, 0);
+      this.ctx.lineTo(this.w, 0);
+      this.ctx.stroke();
+      this.ctx.closePath(); // must call close Path to reduce rendering cost
+      this.ctx.restore();
     }
-    for (let i = 0; i < cols; i++) {
-      ctx.save();
-      ctx.translate(i * debugGridSize, 0);
-      ctx.moveTo(0, 0);
-      ctx.lineTo(0, h);
-      ctx.stroke();
-      ctx.restore();
+    for (this.debugGrid.i = 0; this.debugGrid.i < this.debugGrid.cols; this.debugGrid.i++) {
+      this.ctx.save();
+      this.ctx.translate(this.debugGrid.i * this.debugGrid.size, 0);
+      this.ctx.beginPath();
+      this.ctx.moveTo(0, 0);
+      this.ctx.lineTo(0, this.h);
+      this.ctx.stroke();
+      this.ctx.closePath();
+      this.ctx.restore();
     }
   }
 }

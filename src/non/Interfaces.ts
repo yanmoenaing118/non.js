@@ -3,3 +3,9 @@ export interface ContextStyle {
     stroke?: string,
     font?: string
 }
+
+
+export interface Frame {
+    x: number,
+    y: number
+}
