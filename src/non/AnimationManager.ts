@@ -40,14 +40,19 @@ export default class AnimationManager {
     if (name in this.anims) {
       return;
     }
-    this.currentAnimationName = name;
     this.anims[name] = new Anim(frames, frameRate);
   }
 
   play(name: string) {
     if (name == this.currentAnimationName) return;
-    const currentAnimationName = this.anims[name];
-    currentAnimationName.reset();
+    this.currentAnimationName = name;
+  }
+
+  pause() {
+    if(this.anims[this.currentAnimationName]) {
+        this.anims[this.currentAnimationName].reset()
+    }
+    this.currentAnimationName = '';
   }
 
   /**

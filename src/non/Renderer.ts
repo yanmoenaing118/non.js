@@ -84,7 +84,7 @@ export default class Renderer {
           ctx.drawImage(
             child.texture.img,
             child.frame.x * child.tileW,
-            child.frame.y * child.frame.y,
+            child.frame.y * child.tileH,
             child.tileW,
             child.tileH,
             0,
