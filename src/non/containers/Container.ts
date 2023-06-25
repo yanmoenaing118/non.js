@@ -3,6 +3,7 @@ class Container extends Entity {
   private children: Entity[] = [];
   add(e: Entity) {
     this.children.push(e);
+    return e;
   }
 
   remove(e: Entity) {
@@ -16,6 +17,10 @@ class Container extends Entity {
       }
       return !child.dead;
     });
+  }
+
+  getTotalChildren() {
+    return this.children.length;
   }
 
   forEach(fn: (e: Entity) => void) {

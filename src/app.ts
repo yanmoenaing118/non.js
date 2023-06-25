@@ -1,35 +1,44 @@
-import non from "./non";
-import Entity from "./non/Entity";
+import Renderer from "./non/Renderer";
+import Sprite from "./non/Sprite";
+import Texture from "./non/Texture";
+import TileSprite from "./non/TileSprite";
 import Container from "./non/containers/Container";
+import KeyboardControls from "./non/controls/KeyboardControls";
 
+const controls = new KeyboardControls();
 
-const e1 = new non.Entity(32,32);
-const e2 = new non.Entity(64,32);
+const w = 640;
+const h = 64 * 7;
+const MAX_FRAME = 1 / 60;
+let dt = MAX_FRAME;
+let ellapsedTime = 0;
 
+const size = 1;
 
-const scene = new non.Container(300,300);
-const cam = new non.Container(360,360);
+const render = new Renderer(w * size, h,undefined, true);
+const scene = new Container(w, h);
 
-
-
-scene.add(cam)
-cam.add(e1);
-cam.add(e2);
-
-
-function render(container: Container) {
-    function renderRec(cont: Container) {
-        cont.forEach( e => {
-            if(e instanceof Container) {
-                renderRec(e);
-            }
-            console.log(e.w,e.h)
-        })
+class Spider extends TileSprite {
+  constructor() {
+    super(new Texture("images/spiders.png"), 0, 0, 64, 64);
+    this.pos = {
+        x: Math.random() * w * size,
+        y: Math.random() * h * size
     }
+  }
 
-    renderRec(container);
+  update(dt: number, t: number): void {
+      this.pos.x += dt * controls.x * Math.random() * 1000;
+      this.pos.y += dt * controls.y * 1000 * Math.random();
+  }
 }
 
+function loop(time: number) {
+  dt = Math.min(5, (time - ellapsedTime) * 0.001);
+  ellapsedTime = time;
+  scene.update(dt, ellapsedTime * 0.001);
+  render.render(scene);
+  requestAnimationFrame(loop);
+}
 
-render(scene);
-
+requestAnimationFrame(loop);
