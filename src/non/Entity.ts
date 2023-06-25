@@ -6,19 +6,20 @@ class Entity {
   anchor: Vec2;
   w: number;
   h: number;
+  dead: boolean;
 
-  /**
-   *
-   * @param width width of the entity
-   * @param height height of the entity
-   */
   constructor(width: number, height: number) {
-    this.pos = new Vec2(0, 0);
-    this.scale = { x: 1, y: 1 };
-    this.anchor = { x: 0, y: 0 };
+    this.pos = new Vec2(0,0);
+    this.scale = new Vec2(1,1);
+    this.anchor = new Vec2(0,0);
     this.w = width;
     this.h = height;
+    this.dead = false;
   }
+
+  update (dt: number, t: number): void {
+    console.log(this)
+  } 
 }
 
 
