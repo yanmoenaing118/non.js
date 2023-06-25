@@ -21,16 +21,15 @@ scene.add(cam)
 cam.add(new non.Entity(44,44));
 
 function render(container: Container) {
-    function renderRec(cont: Container) {
-        cont.forEach( e => {
-            if(e instanceof Container) {
-                renderRec(e);
+    function renderContainer(parentContainer: Container) {
+        parentContainer.forEach( child => {
+            if(child instanceof Container) {
+                renderContainer(child);
             }
-            console.log(e.w,e.h)
         })
     }
 
-    renderRec(container);
+    renderContainer(container);
 }
 
 
