@@ -19,8 +19,9 @@ class Container extends Entity {
     });
   }
 
-  getTotalChildren() {
-    return this.children.length;
+  getByIndex(idx: number): Entity {
+    if(!this.children[idx]) return this.children[0];
+    return this.children[idx];
   }
 
   forEach(fn: (e: Entity) => void) {
