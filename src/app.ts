@@ -2,10 +2,11 @@ import Renderer from "./non/Renderer";
 import Container from "./non/containers/Container";
 import Rect from "./non/shapes/Rect";
 
-const w = 600;
-const h = 400;
+const w = 640;
+const h = 64 * 7;
 
 const render = new Renderer(w, h);
+render.debugGridMode = true;
 const scene = new Container(w, h);
 const rect = new Rect(0, 0,100,100);
 rect.setStyles({

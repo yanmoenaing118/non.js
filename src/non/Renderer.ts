@@ -10,6 +10,8 @@ export default class Renderer {
   ctx: CanvasRenderingContext2D;
   w: number;
   h: number;
+  debugGridMode: boolean = false;
+  debugGridSize = 64;
 
   constructor(width: number, height: number, root?: HTMLElement) {
     this.w = width;
@@ -17,7 +19,7 @@ export default class Renderer {
     this.canvas = document.createElement("canvas");
     this.canvas.width = width;
     this.canvas.height = height;
-    this.canvas.style.border = '1px solid gray';
+    this.canvas.style.border = "1px solid gray";
     this.ctx = this.canvas.getContext("2d");
     if (root) {
       root.appendChild(this.canvas);
@@ -36,7 +38,7 @@ export default class Renderer {
       container.forEach((child) => {
         ctx.save();
 
-        console.log(child)
+        console.log(child);
 
         if (child.pos) {
           ctx.translate(child.pos.x, child.pos.y);
@@ -53,7 +55,7 @@ export default class Renderer {
         }
 
         if (child instanceof Rect) {
-            console.log(child)
+          console.log(child);
           if (child.style.fill) {
             ctx.fillRect(0, 0, child.w, child.h);
           } else if (child.style.stroke) {
@@ -74,16 +76,42 @@ export default class Renderer {
         }
 
         this.ctx.restore();
-        
       });
     };
-
 
     /**
      * clear the Canvas before any rendering happens
      */
     ctx.clearRect(0, 0, w, h);
+    if (this.debugGridMode) {
+      this.renderDebugGrid();
+    }
     renderContainer(scene);
-    
+  }
+
+  /**
+   * This is a 64x64 debugger grid.
+   * This will render a grid when debugGridMode is true
+   */
+  renderDebugGrid() {
+    const { debugGridSize, w, h, ctx } = this;
+    const rows = Math.round(h / debugGridSize);
+    const cols = Math.round(w / debugGridSize);
+    for (let i = 0; i < rows; i++) {
+      ctx.save();
+      ctx.translate(0, i * debugGridSize);
+      ctx.moveTo(0, 0);
+      ctx.lineTo(w, 0);
+      ctx.stroke();
+      ctx.restore();
+    }
+    for (let i = 0; i < cols; i++) {
+      ctx.save();
+      ctx.translate(i * debugGridSize, 0);
+      ctx.moveTo(0, 0);
+      ctx.lineTo(0, h);
+      ctx.stroke();
+      ctx.restore();
+    }
   }
 }
