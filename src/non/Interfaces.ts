@@ -1,3 +1,5 @@
+import Anim from "./Anim"
+
 export interface ContextStyle {
     fill?: string,
     stroke?: string,
@@ -15,5 +17,5 @@ export interface Frame {
  * Anims is a collection of animation that can be added to a TileSprite
  */
 export interface Anims {
-    [key: string]: Animation
+    [key: string]: Anim
 }

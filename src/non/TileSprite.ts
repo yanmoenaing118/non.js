@@ -1,3 +1,4 @@
+import AnimationManager from "./AnimationManager";
 import Entity from "./Entity";
 import { Frame } from "./Interfaces";
 import Sprite from "./Sprite";
@@ -7,6 +8,7 @@ export default class TileSprite extends Sprite {
   tileW: number;
   tileH: number;
   frame: Frame;
+  anims?: AnimationManager;
 
   constructor(
     texture: Texture,
@@ -20,5 +22,10 @@ export default class TileSprite extends Sprite {
     this.tileW = tileWidth;
     this.tileH = tileHeight;
     this.frame = frame || { x: 0, y: 0 };
+    this.anims = new AnimationManager(this);
+  }
+
+  update(dt: number, t: number): void {
+    this.anims.update(dt);
   }
 }

@@ -2,9 +2,10 @@ import { Frame } from "./Interfaces";
 
 
 /**
- * Animation class can be used to animate a sequence of Frames
+ * Animation(Anim) class can be used to animate a sequence of Frames.
+ * We will use the name Anim because Animation confict with the DOM's Animation object
  */
-export default class Animation {
+export default class Anim {
   /**
    * frameRate is the await time before switching to a next frame
    */
