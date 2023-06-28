@@ -2,6 +2,7 @@ import Renderer from "./non/Renderer";
 import Sprite from "./non/Sprite";
 import Texture from "./non/Texture";
 import TileSprite from "./non/TileSprite";
+import Camera from "./non/containers/Camera";
 import Container from "./non/containers/Container";
 import TileMap from "./non/containers/TileMap";
 import KeyboardControls from "./non/controls/KeyboardControls";
@@ -17,14 +18,15 @@ let dt = MAX_FRAME;
 let ellapsedTime = 0;
 
 const size = 1;
-
+const worldW = w + w;
+const worlH = h + cell * 5;
 const render = new Renderer(w, h, undefined, true);
 const scene = new Container(w, h);
 
 class Dungeon extends TileMap {
   constructor() {
-    const mapW = w / cell;
-    const mapH = h / cell;
+    const mapW = worldW / cell;
+    const mapH = worlH / cell;
     super(mapW, mapH, cell, cell);
     this.createMap();
   }
@@ -42,37 +44,59 @@ class Dungeon extends TileMap {
 }
 
 class Spider extends TileSprite {
+  speed: number = 320;
   constructor() {
     super(new Texture('images/spiders.png'), 0, 0, cell, cell);
+  
+    this.anims.add('walk', 0.1, [
+      {
+        x: 0,
+        y: 1
+      },
+      {
+        x: 1,
+        y: 1
+      },
+      {
+        x: 2,
+        y: 2
+      }
+    ])
+    this.anims.play('walk')
   }
 
   update(dt: number, t: number): void {
-    this.pos.x += dt * 320 * controls.x;
-    this.pos.y += dt * 320 * controls.y;
+    // this.anims.update(dt);
+    this.pos.x += dt * this.speed * controls.x;
+    this.pos.y += dt * this.speed * controls.y;
 
+    // console.log('spider ', this.pos)
 
     /**
      * TODO: Snap to Tile Grid
      * 
      */
 
-    this.pos.x = clamp(this.pos.x,0,w - cell);
-    this.pos.y = clamp(this.pos.y,0,h - cell);
+    this.pos.x = clamp(this.pos.x,0,worldW - cell);
+    this.pos.y = clamp(this.pos.y,0, worlH - cell);
 
 
     // console.log(x, y)
   }
 }
-
-const dungeon = scene.add(new Dungeon());
-const spider = scene.add(new Spider())
-
+const camera = new Camera(w, h, w + w, worlH)
+const dungeon = camera.add(new Dungeon());
+const spider = camera.add(new Spider())
+spider.speed = 800;
 console.log(dungeon);
 
+camera.setSubject(spider)
+scene.add(camera);
 
 function loop(time: number) {
   dt = Math.min(5, (time - ellapsedTime) * 0.001);
   ellapsedTime = time;
+
 
   const spiderMapPos = dungeon.pixelToMapPosition(spider.pos);
   const spiderPixPos = dungeon.mapToPixelPositon(spiderMapPos);
