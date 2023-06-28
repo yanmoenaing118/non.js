@@ -2,6 +2,7 @@ import Renderer from "./non/Renderer";
 import Sprite from "./non/Sprite";
 import Texture from "./non/Texture";
 import TileSprite from "./non/TileSprite";
+import { MAX_DELTA } from "./non/constants";
 import Camera from "./non/containers/Camera";
 import Container from "./non/containers/Container";
 import TileMap from "./non/containers/TileMap";
@@ -13,8 +14,7 @@ const controls = new KeyboardControls();
 const cell = 64;
 const w = cell * 12;
 const h = cell * 8;
-const MAX_FRAME = 1 / 60;
-let dt = MAX_FRAME;
+let dt = MAX_DELTA
 let ellapsedTime = 0;
 
 const size = 1;
@@ -92,7 +92,7 @@ camera.setSubject(spider)
 scene.add(camera);
 
 function loop(time: number) {
-  dt = Math.min(5, (time - ellapsedTime) * 0.001);
+  dt = Math.min(MAX_DELTA, (time - ellapsedTime) * 0.001);
   ellapsedTime = time;
 
 
