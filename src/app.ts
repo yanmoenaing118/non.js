@@ -66,11 +66,11 @@ class Spider extends TileSprite {
   }
 
   update(dt: number, t: number): void {
-    // this.anims.update(dt);
+    this.anims.update(dt);
     this.pos.x += dt * this.speed * controls.x;
     this.pos.y += dt * this.speed * controls.y;
 
-    // console.log('spider ', this.pos)
+
 
     /**
      * TODO: Snap to Tile Grid
@@ -80,8 +80,6 @@ class Spider extends TileSprite {
     this.pos.x = clamp(this.pos.x,0,worldW - cell);
     this.pos.y = clamp(this.pos.y,0, worlH - cell);
 
-
-    // console.log(x, y)
   }
 }
 const camera = new Camera(w, h, w + w, worlH)
