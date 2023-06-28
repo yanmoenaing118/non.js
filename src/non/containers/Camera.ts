@@ -41,7 +41,7 @@ export default class Camera<T extends Entity> extends Container {
         this.pos.x = x;
         this.pos.y = y;
 
-        console.log('cam pos ', this.subject)
+        // console.log('cam pos ', this.subject)
     }
 
     /**
