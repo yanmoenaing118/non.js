@@ -1,0 +1,1 @@
+export const MAX_DELTA = 1 / 60; // 60 fps
