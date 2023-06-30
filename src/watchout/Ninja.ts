@@ -11,6 +11,7 @@ class Ninja extends TileSprite {
   constrols: KeyboardControls;
   animSpeed = 0.1;
   speed = 480; // will move 320px per second
+  currentX = 0;
   constructor(controls: KeyboardControls) {
     super(NinjaTexture, 0, 0, 32, 36, {
       x: 0,
@@ -35,20 +36,27 @@ class Ninja extends TileSprite {
   }
 
   update(dt: number, t: number): void {
-   super.update(dt,t);
-   /**
-    * v = s / t
-    * v = speed (this.speed)
-    * s = distance (this.pos.x)
-    * t = time (dt)
-    * 
-    * s = v * t
-    */
-   this.pos.x += this.speed * dt * this.constrols.x;
-   this.pos.y += this.speed * dt * this.constrols.y;
+    super.update(dt, t);
+    /**
+     * v = s / t
+     * v = speed (this.speed)
+     * s = distance (this.pos.x)
+     * t = time (dt)
+     *
+     * s = v * t
+     */
+    this.pos.x += this.speed * dt * this.constrols.x;
+    this.pos.y += this.speed * dt * this.constrols.y;
 
-   this.pos.x = clamp(this.pos.x, 0, WIDTH - 32);
-   this.pos.y = clamp(this.pos.y, 0, HEIGHT - 36);
+    this.pos.x = clamp(this.pos.x, 0, WIDTH - 32);
+    this.pos.y = clamp(this.pos.y, 0, HEIGHT - 36);
+
+    if (this.pos.x < this.currentX) {
+      this.dead = true;
+    }
+    
+    this.currentX = this.pos.x;
+
   }
 }
 
