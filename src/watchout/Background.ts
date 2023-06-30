@@ -22,7 +22,7 @@ class Background extends TileMap {
       };
       if (y == 0) {
         frame = { x: 8, y: 0 };
-      } else if (y > this.noTileRows * this.noTileCols - this.noTileCols - 1) {
+      } else if (i >= this.noTileRows * this.noTileCols - this.noTileCols) {
         frame = { x: 6, y: 9 };
       } else {
         frame = { x: 0, y: 0 };
