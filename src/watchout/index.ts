@@ -1,6 +1,7 @@
 import Renderer from "../non/Renderer";
 import Container from "../non/containers/Container";
 import KeyboardControls from "../non/controls/KeyboardControls";
+import Background from "./Background";
 import Ninja from "./Ninja";
 import { DELTA_TIME, HEIGHT, WIDTH } from "./constants";
 
@@ -15,8 +16,11 @@ let lastFrameTimeInSecond = 0;
 
 const scene = new Container(w, h);
 const ninja = new Ninja(controls);
+const background = new Background();
 
+scene.add(background);
 scene.add(ninja);
+
 
 function run(timeEllapsed: number) {
     delta = Math.min((timeEllapsed - lastFrameTime) * 0.001, DELTA_TIME); 
